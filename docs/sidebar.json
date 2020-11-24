@@ -1,6 +1,6 @@
 {
   "inpaint_melanoma": {
     "Overview": "/",
-    "main_melanoma": "core.html"
+    "inpaint_melanoma": "core.html"
   }
 }

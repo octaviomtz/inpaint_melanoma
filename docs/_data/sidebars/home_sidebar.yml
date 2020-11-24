@@ -10,7 +10,7 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: main_melanoma
+      title: inpaint_melanoma
       url: core.html
     output: web
     title: inpaint_melanoma
