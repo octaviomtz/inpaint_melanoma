@@ -7,7 +7,7 @@ import numpy as np
 from PIL import Image
 import PIL
 import numpy as np
-
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 import pdb
 # from utils_omm.clr import CyclicLR # OMM
@@ -320,7 +320,7 @@ def optimize_melanoma_v1(optimizer_type, parameters, closure, LR, num_iter, show
 
         lr_finder = 1e-7
         lrs_finder = []
-        for j in range(num_iter):
+        for j in tqdm(range(num_iter)):
 
             # LR finder
             if lr_finder_flag:
