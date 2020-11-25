@@ -321,7 +321,7 @@ def optimize_melanoma_v1(optimizer_type, parameters, closure, LR, num_iter, show
         lr_finder = 1e-7
         lrs_finder = []
         for j in tqdm(range(num_iter)):
-
+            print(j)
             # LR finder
             if lr_finder_flag:
                 if j == 0: print('Finding LR')
