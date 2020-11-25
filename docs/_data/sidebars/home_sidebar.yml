@@ -12,6 +12,9 @@ entries:
     - output: web,pdf
       title: inpaint_melanoma
       url: core.html
+    - output: web,pdf
+      title: models
+      url: models.skip.html
     output: web
     title: inpaint_melanoma
   output: web

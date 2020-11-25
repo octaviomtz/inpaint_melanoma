@@ -10,9 +10,21 @@ index = {"rgb2gray": "00_core.ipynb",
          "figs_horizontal2": "00_core.ipynb",
          "figs_comparison": "00_core.ipynb",
          "figs_horizontal3": "00_core.ipynb",
-         "plot_inpaints_pairs": "00_core.ipynb"}
+         "plot_inpaints_pairs": "00_core.ipynb",
+         "add_module": "01_models.common.ipynb",
+         "Concat": "01_models.common.ipynb",
+         "GenNoise": "01_models.common.ipynb",
+         "Swish": "01_models.common.ipynb",
+         "act": "01_models.common.ipynb",
+         "bn": "01_models.common.ipynb",
+         "conv": "01_models.common.ipynb",
+         "torch.nn.Module.add": "01_models.common.ipynb",
+         "Downsampler": "01_models.common.ipynb",
+         "skip": "01_models.skip.ipynb"}
 
-modules = ["core.py"]
+modules = ["core.py",
+           "models/common.py",
+           "models/skip.py"]
 
 doc_url = "https://octaviomtz.github.io/inpaint_melanoma/"
 
