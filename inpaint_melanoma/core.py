@@ -26,6 +26,9 @@ from PIL import Image
 from matplotlib.gridspec import GridSpec
 
 # Cell
+sys.path.append('../')
+
+# Cell
 from models.skip import skip
 from utils.inpainting_utils import *
 
@@ -38,9 +41,6 @@ from scipy import ndimage
 from skimage import filters
 
 warnings.filterwarnings("ignore", category=UserWarning)
-
-# Cell
-sys.path.append('../')
 
 # Cell
 def rgb2gray(rgb):
