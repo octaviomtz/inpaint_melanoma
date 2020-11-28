@@ -40,6 +40,9 @@ from skimage import filters
 warnings.filterwarnings("ignore", category=UserWarning)
 
 # Cell
+sys.path.append('../')
+
+# Cell
 def rgb2gray(rgb):
     '''https://stackoverflow.com/questions/12201577/how-can-i-convert-an-rgb-image-into-grayscale-in-python'''
     return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
