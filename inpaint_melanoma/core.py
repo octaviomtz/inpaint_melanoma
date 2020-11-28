@@ -26,7 +26,7 @@ from PIL import Image
 from matplotlib.gridspec import GridSpec
 
 # Cell
-sys.path.append('../')
+sys.path.append('../models')
 
 # Cell
 from models.skip import skip
