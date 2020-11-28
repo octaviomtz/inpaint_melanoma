@@ -26,11 +26,9 @@ from PIL import Image
 from matplotlib.gridspec import GridSpec
 
 # Cell
-sys.path.append('../models')
-
-# Cell
-from models.skip import skip
-from utils.inpainting_utils import *
+# from models.skip import skip
+from .skip import *
+from .inpainting_utils import *
 
 # Cell
 from inpainting_nodules_functions import *

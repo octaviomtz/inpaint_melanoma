@@ -1,7 +1,6 @@
 {
   "inpaint_melanoma": {
     "Overview": "/",
-    "inpaint_melanoma": "core.html",
-    "models": "models.skip.html"
+    "inpaint_melanoma": "common_utils.html"
   }
 }
