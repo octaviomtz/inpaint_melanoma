@@ -1,6 +1,6 @@
 {
   "inpaint_melanoma": {
     "Overview": "/",
-    "inpaint_melanoma": "common_utils.html"
+    "inpaint_melanoma": "inpainting_nodules_functions.html"
   }
 }

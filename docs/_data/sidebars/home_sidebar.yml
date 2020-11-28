@@ -11,7 +11,7 @@ entries:
       url: /
     - output: web,pdf
       title: inpaint_melanoma
-      url: common_utils.html
+      url: inpainting_nodules_functions.html
     output: web
     title: inpaint_melanoma
   output: web

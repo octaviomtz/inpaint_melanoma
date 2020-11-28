@@ -31,7 +31,7 @@ from .skip import *
 from .inpainting_utils import *
 
 # Cell
-from inpainting_nodules_functions import *
+from .inpainting_nodules_functions import *
 import warnings
 from torch.autograd import Variable
 # from google.colab import drive
