@@ -321,6 +321,7 @@ def optimize_melanoma_v1(optimizer_type, parameters, closure, LR, num_iter, show
     """
     total_loss = []
     images_generated = []
+    losses_all = []
     if optimizer_type == 'adam':
         #print('Starting optimization with ADAM')
         optimizer = torch.optim.Adam(parameters, lr=LR)
@@ -345,6 +346,7 @@ def optimize_melanoma_v1(optimizer_type, parameters, closure, LR, num_iter, show
             optimizer.zero_grad()
             total_loss_temp, image_generated_temp, losses = closure()
             total_loss.append(total_loss_temp)
+            losses_all.append(losses)
 
             # Restart if bad initialization
             if j == 200 and np.sum(np.diff(total_loss)==0) > 50:
@@ -374,4 +376,4 @@ def optimize_melanoma_v1(optimizer_type, parameters, closure, LR, num_iter, show
                 # break
     else:
         assert False
-    return total_loss, images_generated, j_best, restart, losses
+    return total_loss, images_generated, j_best, restart, losses_all

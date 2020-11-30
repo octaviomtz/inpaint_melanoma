@@ -127,7 +127,7 @@ def closure():
     kl_loss_ch2 = KL(torch.log_softmax(lesion_only_ch2, dim=0), torch.softmax(skin_sample_ch2, dim=0))
     mse_loss = mse(out * mask_var, img_var * mask_var)
     
-    total_loss = mse_loss + kl_loss_ch0 + kl_loss_ch2 + kl_loss_ch2
+    total_loss = mse_loss + kl_loss_ch0 + kl_loss_ch1 + kl_loss_ch2
     total_loss.backward()
         
 #     print ('Iteration %05d    Loss %.12f' % (i, total_loss.item()), '\r', end='')
@@ -204,7 +204,7 @@ while restart == True:
 
     training initialization 0 with LR = 0.010000000000
     using get_noise2
-    noise: <class 'numpy.ndarray'>, (1, 32, 512, 512), (-0.5290224, -2.1661422e-06, 0.51563877)
+    noise: <class 'numpy.ndarray'>, (1, 32, 512, 512), (-0.523038, 2.4274598e-06, 0.5307098)
     
 
 
@@ -241,3 +241,25 @@ for (img_to_save, epoch_to_save) in zip(image_raw_denorm, save_epochs):
     im2save.save(f'{path_img_dest}raw/{filename}_{name}_{epoch_to_save:04d}.png')
 np.save(f'{path_img_dest}mse/{filename}_{name}.npy', mse_error)
 ```
+
+```python
+l_mse = [l[0] for l in losses]
+l_kl0 = [l[1] for l in losses]
+l_kl1 = [l[2] for l in losses]
+l_kl2 = [l[3] for l in losses]
+```
+
+```python
+plt.semilogy(l_mse,label='mse')
+plt.semilogy(l_kl0,label='kl0')
+plt.semilogy(l_kl1,label='kl1')
+plt.semilogy(l_kl2,label='kl2')
+plt.legend(loc='upper_right')
+```
+
+
+
+
+    <matplotlib.legend.Legend at 0x7f7d42601c50>
+
+
