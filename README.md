@@ -27,6 +27,7 @@ from PIL import Image
 ```python
 filename = 'ISIC_0076742'
 # if cloud
+# from google.colab import drive
 # drive.mount('/content/gdrive/')
 # path_source = '/content/gdrive/My Drive/KCL/melanoma/size_512/'
 # path_img_dest = '/content/gdrive/My Drive/KCL/melanoma/results_512/'
@@ -67,21 +68,6 @@ name_for_fig = f'{channels_input}_{layers_str}s{skip_str}'
 ```
 
 ```python
-# reshape and normalize
-img = np.swapaxes(img,1,2)
-img = np.swapaxes(img,0,1)
-mask_inpain = mask_inpain.astype('int')
-# normalize
-img_min = np.min(img)
-img_max = np.max(img)
-img = (img - img_min) / (img_max - img_min)
-print(f'img: {np.shape(img), np.shape(mask_inpain)}')
-```
-
-    img: ((3, 512, 512), (512, 512))
-
-
-```python
 lesion_size = np.where(mask_inpain==0)
 lesion_size = len(lesion_size[0])
 ```
@@ -95,7 +81,7 @@ ax[2].hist(skin_sample_ch2_np); ax[2].set_title('channel_2');
 ```
 
 
-![png](docs/images/output_12_0.png)
+![png](docs/images/output_11_0.png)
 
 
 ```python
@@ -500,7 +486,7 @@ plot_inpaints_pairs(mse_error, images_raw, images, save_epochs, filename, name_f
 ```
 
 
-![png](docs/images/output_19_0.png)
+![png](docs/images/output_18_0.png)
 
 
 ```python
