@@ -125,11 +125,14 @@ def closure():
     kl_loss_ch0 = KL(torch.log_softmax(lesion_only_ch0, dim=0), torch.softmax(skin_sample_ch0, dim=0))
     kl_loss_ch1 = KL(torch.log_softmax(lesion_only_ch1, dim=0), torch.softmax(skin_sample_ch1, dim=0))
     kl_loss_ch2 = KL(torch.log_softmax(lesion_only_ch2, dim=0), torch.softmax(skin_sample_ch2, dim=0))
+    mse_loss = mse(out * mask_var, img_var * mask_var)
     
-    total_loss = mse(out * mask_var, img_var * mask_var) + kl_loss_ch0 + kl_loss_ch2 + kl_loss_ch2
+    total_loss = mse_loss + kl_loss_ch0 + kl_loss_ch2 + kl_loss_ch2
     total_loss.backward()
         
-    print ('Iteration %05d    Loss %.12f' % (i, total_loss.item()), '\r', end='')
+#     print ('Iteration %05d    Loss %.12f' % (i, total_loss.item()), '\r', end='')
+    
+    losses = [mse_loss.detach().cpu().numpy(), kl_loss_ch0.detach().cpu().numpy(), kl_loss_ch2.detach().cpu().numpy(), kl_loss_ch2.detach().cpu().numpy()]
     
     if  PLOT:
         out_np = torch_to_np(out)
@@ -138,7 +141,7 @@ def closure():
         
     i += 1    
 
-    return total_loss, images_all
+    return total_loss, images_all, losses
 ```
 
 ```python
@@ -189,7 +192,7 @@ while restart == True:
     print(f'noise: {type(noise.detach().cpu().numpy())}, {np.shape(noise.detach().cpu().numpy())}, {np.min(noise.detach().cpu().numpy()), np.mean(noise.detach().cpu().numpy()), np.max(noise.detach().cpu().numpy())}')
 
     p = get_params(OPT_OVER, net, net_input)
-    mse_error, images_generated_all, best_iter, restart = optimize_melanoma_v1(OPTIMIZER, p, closure, LR, num_iter, show_every, path_img_dest, restart, annealing=True, lr_finder_flag=False)
+    mse_error, images_generated_all, best_iter, restart, losses = optimize_melanoma_v1(OPTIMIZER, p, closure, LR, num_iter, show_every, path_img_dest, restart, annealing=True, lr_finder_flag=False)
     
     mse_error = [i.detach().cpu().numpy() for i in mse_error]
 
@@ -201,271 +204,8 @@ while restart == True:
 
     training initialization 0 with LR = 0.010000000000
     using get_noise2
-
-
-      0%|          | 0/51 [00:00<?, ?it/s]
-
-    noise: <class 'numpy.ndarray'>, (1, 32, 512, 512), (-0.5126995, 3.7638987e-05, 0.48123914)
-    0
-
-
-    /home/octaviomtz/miniconda3/envs/torch/lib/python3.6/site-packages/torch/nn/functional.py:1958: UserWarning: reduction: 'mean' divides the total loss by both the batch size and the support size.'batchmean' divides only by the batch size, and aligns with the KL div math definition.'mean' will be changed to behave the same as 'batchmean' in the next major release.
-      warnings.warn("reduction: 'mean' divides the total loss by both the batch size and the support size."
-      2%|▏         | 1/51 [00:04<03:38,  4.37s/it]
-
-    1
-
-
-      4%|▍         | 2/51 [00:08<03:33,  4.35s/it]
-
-    2
-
-
-      6%|▌         | 3/51 [00:12<03:18,  4.14s/it]
-
-    3
-
-
-      8%|▊         | 4/51 [00:17<03:30,  4.48s/it]
-
-    4
-
-
-     10%|▉         | 5/51 [00:23<03:47,  4.95s/it]
-
-    5
-
-
-     12%|█▏        | 6/51 [00:29<03:55,  5.24s/it]
-
-    6
-
-
-     14%|█▎        | 7/51 [00:37<04:29,  6.12s/it]
-
-    7
-
-
-     16%|█▌        | 8/51 [00:48<05:19,  7.43s/it]
-
-    8
-
-
-     18%|█▊        | 9/51 [00:53<04:46,  6.82s/it]
-
-    9
-
-
-     20%|█▉        | 10/51 [01:00<04:42,  6.89s/it]
-
-    10
-
-
-     22%|██▏       | 11/51 [01:08<04:42,  7.05s/it]
-
-    11
-
-
-     24%|██▎       | 12/51 [01:13<04:10,  6.43s/it]
-
-    12
-
-
-     25%|██▌       | 13/51 [01:18<03:52,  6.11s/it]
-
-    13
-
-
-     27%|██▋       | 14/51 [01:23<03:33,  5.76s/it]
-
-    14
-
-
-     29%|██▉       | 15/51 [01:28<03:16,  5.46s/it]
-
-    15
-
-
-     31%|███▏      | 16/51 [01:33<03:06,  5.33s/it]
-
-    16
-
-
-     33%|███▎      | 17/51 [01:39<03:08,  5.53s/it]
-
-    17
-
-
-     35%|███▌      | 18/51 [01:44<03:05,  5.62s/it]
-
-    18
-
-
-     37%|███▋      | 19/51 [01:52<03:15,  6.10s/it]
-
-    19
-
-
-     39%|███▉      | 20/51 [01:56<02:48,  5.44s/it]
-
-    20
-
-
-     41%|████      | 21/51 [02:00<02:30,  5.03s/it]
-
-    21
-
-
-     43%|████▎     | 22/51 [02:04<02:20,  4.84s/it]
-
-    22
-
-
-     45%|████▌     | 23/51 [02:09<02:12,  4.74s/it]
-
-    23
-
-
-     47%|████▋     | 24/51 [02:13<02:05,  4.66s/it]
-
-    24
-
-
-     49%|████▉     | 25/51 [02:17<01:55,  4.44s/it]
-
-    25
-
-
-     51%|█████     | 26/51 [02:21<01:50,  4.43s/it]
-
-    26
-
-
-     53%|█████▎    | 27/51 [02:26<01:44,  4.34s/it]
-
-    27
-
-
-     55%|█████▍    | 28/51 [02:30<01:37,  4.24s/it]
-
-    28
-
-
-     57%|█████▋    | 29/51 [02:34<01:36,  4.40s/it]
-
-    29
-
-
-     59%|█████▉    | 30/51 [02:39<01:34,  4.52s/it]
-
-    30
-
-
-     61%|██████    | 31/51 [02:45<01:40,  5.03s/it]
-
-    31
-
-
-     63%|██████▎   | 32/51 [02:52<01:46,  5.63s/it]
-
-    32
-
-
-     65%|██████▍   | 33/51 [02:58<01:41,  5.63s/it]
-
-    33
-
-
-     67%|██████▋   | 34/51 [03:02<01:28,  5.23s/it]
-
-    34
-
-
-     69%|██████▊   | 35/51 [03:09<01:28,  5.54s/it]
-
-    35
-
-
-     71%|███████   | 36/51 [03:13<01:18,  5.25s/it]
-
-    36
-
-
-     73%|███████▎  | 37/51 [03:18<01:11,  5.08s/it]
-
-    37
-
-
-     75%|███████▍  | 38/51 [03:22<01:01,  4.76s/it]
-
-    38
-
-
-     76%|███████▋  | 39/51 [03:26<00:56,  4.72s/it]
-
-    39
-
-
-     78%|███████▊  | 40/51 [03:30<00:49,  4.46s/it]
-
-    40
-
-
-     80%|████████  | 41/51 [03:34<00:43,  4.30s/it]
-
-    41
-
-
-     82%|████████▏ | 42/51 [03:38<00:37,  4.18s/it]
-
-    42
-
-
-     84%|████████▍ | 43/51 [03:42<00:33,  4.15s/it]
-
-    43
-
-
-     86%|████████▋ | 44/51 [03:47<00:29,  4.24s/it]
-
-    44
-
-
-     88%|████████▊ | 45/51 [03:52<00:26,  4.43s/it]
-
-    45
-
-
-     90%|█████████ | 46/51 [03:55<00:21,  4.23s/it]
-
-    46
-
-
-     92%|█████████▏| 47/51 [03:59<00:16,  4.15s/it]
-
-    47
-
-
-     94%|█████████▍| 48/51 [04:03<00:11,  3.97s/it]
-
-    48
-
-
-     96%|█████████▌| 49/51 [04:07<00:07,  3.95s/it]
-
-    49
-
-
-     98%|█████████▊| 50/51 [04:10<00:03,  3.84s/it]
-
-    50
-
-
-    100%|██████████| 51/51 [04:14<00:00,  3.70s/it]
-
-    Iteration 00050    Loss 0.002824939787 
-
-    100%|██████████| 51/51 [04:15<00:00,  5.00s/it]
+    noise: <class 'numpy.ndarray'>, (1, 32, 512, 512), (-0.5290224, -2.1661422e-06, 0.51563877)
+    
 
 
 ```python

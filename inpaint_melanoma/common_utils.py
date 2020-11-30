@@ -328,7 +328,6 @@ def optimize_melanoma_v1(optimizer_type, parameters, closure, LR, num_iter, show
         lr_finder = 1e-7
         lrs_finder = []
         for j in tqdm(range(num_iter)):
-            print(j)
             # LR finder
             if lr_finder_flag:
                 if j == 0: print('Finding LR')
@@ -344,7 +343,7 @@ def optimize_melanoma_v1(optimizer_type, parameters, closure, LR, num_iter, show
                 j_best = 0
 
             optimizer.zero_grad()
-            total_loss_temp, image_generated_temp = closure()
+            total_loss_temp, image_generated_temp, losses = closure()
             total_loss.append(total_loss_temp)
 
             # Restart if bad initialization
@@ -354,10 +353,6 @@ def optimize_melanoma_v1(optimizer_type, parameters, closure, LR, num_iter, show
                 return total_loss, images_generated, j_best, restart
             else:
                 restart = False
-
-            # if total_loss_temp < 0.001:
-                # print('loss reached 0.001')
-                # break # v18
 
             if total_loss_temp < loss_best:
                 loss_best = total_loss_temp
@@ -379,4 +374,4 @@ def optimize_melanoma_v1(optimizer_type, parameters, closure, LR, num_iter, show
                 # break
     else:
         assert False
-    return total_loss, images_generated, j_best, restart
+    return total_loss, images_generated, j_best, restart, losses
