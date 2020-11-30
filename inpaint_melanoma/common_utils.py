@@ -14,7 +14,7 @@ import numpy as np
 from PIL import Image
 import PIL
 import numpy as np
-from tqdm import tqdm
+from tqdm.notebook import tqdm
 import matplotlib.pyplot as plt
 import pdb
 
